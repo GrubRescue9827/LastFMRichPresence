@@ -4,7 +4,9 @@ This plugin allows you to show what you're listening via Last.fm. You can set it
 
 ## Note:
 This is a fork that makes the RPC a little prettier (As shown)
+
 ![Screenshot](https://i.imgur.com/LoLOtrr.png)
+
 I'm NOT a programmer, I've just hacked this together through trial and error. This is mostly for my personal use, but I might as well post it incase anyone wants something similar.
 I've tried to document everything I could understand in the JS file, hopefully it makes it easier for anyone who doesn't know JavaScript (like me) to edit.
 I'll hopefully add some more customization options so you don't have to edit the js file directly. But that's work for future me to deal with.
