@@ -1,8 +1,13 @@
 # LastFMRichPresence BetterDiscord Plugin
-This plugin allows you to show what you're listening via Last.fm. You can set it up for Soundcloud, Youtube Music and lot of other sites, not just Spotify (with [Webscrobbler](https://chrome.google.com/webstore/detail/web-scrobbler/hhinaapppaileiechjoiifaancjggfjm?hl=en)).  
-Keep in mind that you can't click your own rich presence buttons. Other people can.  
+This plugin allows you to show what you're listening via Last.fm. You can set it up for Soundcloud, Youtube Music and lot of other sites, not just Spotify (with [Webscrobbler](https://chrome.google.com/webstore/detail/web-scrobbler/hhinaapppaileiechjoiifaancjggfjm?hl=en)). 
+~~Keep in mind that you can't click your own rich presence buttons. Other people can.~~ (Works fine for me?)
 
-![Screenshot](https://lune.dimden.dev/129c4eba56.png)  
+## Note:
+This is a fork that makes the RPC a little prettier (As shown)
+![Screenshot](https://i.imgur.com/LoLOtrr.png)
+I'm NOT a programmer, I've just hacked this together through trial and error. This is mostly for my personal use, but I might as well post it incase anyone wants something similar.
+I've tried to document everything I could understand in the JS file, hopefully it makes it easier for anyone who doesn't know JavaScript (like me) to edit.
+I'll hopefully add some more customization options so you don't have to edit the js file directly. But that's work for future me to deal with.
 
 ## Features
 * Show what music you're listening with Last.fm. With [Webscrobbler](https://chrome.google.com/webstore/detail/web-scrobbler/hhinaapppaileiechjoiifaancjggfjm?hl=en) you can show music from 280+ different websites (see list [here](https://web-scrobbler.com/)).  
@@ -31,7 +36,7 @@ You can get OAuth key by having Soundcloud app (but they stopped giving access) 
 This plugin uses RPC, which is official API used by lot of programs. It doesn't update your status and won't count as selfbotting.  
 
 ## Support
-Join my [Discord server](https://discord.gg/TBAM6T7AYc) for support.  
+You're on your own, bud. Sowwy, idk what I'm doing! >w< 
 
 ## License
 MIT
