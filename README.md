@@ -19,8 +19,9 @@ I'll hopefully add some more customization options so you don't have to edit the
 * Easy setup. You can show scrobbles of any person.  
 
 ## Installation
-* Download [this](https://raw.githubusercontent.com/dimdenGD/LastFMRichPresence/main/LastFMRichPresence.plugin.js) file and put it in BetterDiscord plugin folder.  
-* Go to [Last.fm API](https://www.last.fm/api) and create API key (it only takes few minutes, write anything about app, dont need to provide callback or website).  
+* Download [this](https://raw.githubusercontent.com/GrubRescue9827/LastFMRichPresence/main/LastFMRichPresence.plugin.js) file and put it in BetterDiscord plugin folder.  
+* Go to [Last.fm API](https://www.last.fm/api) and create API key (it only takes few minutes, write anything about app, dont need to provide callback or website).
+* If you accidently forget your API key, you can find it [here](https://www.last.fm/api/accounts)
 * Put Last.fm key and your Last.fm username in plugin settings.  
 * Wait a minute and it should start working  
 * If it doesn't, make sure you have this option on:  
