@@ -1,7 +1,7 @@
 /**
  * @name LastFMRichPresence
  * @version P-1.0.6
- * @description A fork of LastFMRichPresence by dimdenGD, Aims to prettify the exising
+ * @description A fork of LastFMRichPresence by dimdenGD, Aims to make RPC prettier.
  * @website https://discord.gg/TBAM6T7AYc
  * @author dimden#9999 (dimden.dev), dzshn#1312 (dzshn.xyz), GrubRescue9827
  * @authorLink https://dimden.dev/
