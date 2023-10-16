@@ -1,9 +1,9 @@
 /**
  * @name LastFMRichPresence
- * @version 1.0.6
- * @description Last.fm rich presence to show what you're listening to. Finally not just Spotify!
+ * @version P-1.0.6
+ * @description A fork of LastFMRichPresence by dimdenGD, Aims to prettify the exising
  * @website https://discord.gg/TBAM6T7AYc
- * @author dimden#9999 (dimden.dev), dzshn#1312 (dzshn.xyz)
+ * @author dimden#9999 (dimden.dev), dzshn#1312 (dzshn.xyz), GrubRescue9827
  * @authorLink https://dimden.dev/
  * @updateUrl https://raw.githubusercontent.com/dimdenGD/LastFMRichPresence/main/LastFMRichPresence.plugin.js
  * @source https://github.com/dimdenGD/LastFMRichPresence/blob/main/LastFMRichPresence.plugin.js
@@ -83,8 +83,8 @@ const ClientID = "1052565934088405062";
 
 const defaultSettings = {
 	disableWhenSpotify: true,
-	listeningTo: false,
-	artistActivityName: false,
+	listeningTo: true,
+	artistActivityName: true,
 	lastfmButton: true,
 	youtubeButton: true,
 	assetIcon: true,
@@ -132,10 +132,10 @@ class LastFMRichPresence {
         return "Last.fm presence to show what you're listening to. Finally not just Spotify!";
     }
     getVersion() {
-        return "1.0.6";
+        return "P-1.0.6";
     }
     getAuthor() {
-        return "dimden#9999 (dimden.dev), dzshn#1312 (dzshn.xyz)";
+        return "dimden#9999 (dimden.dev), dzshn#1312 (dzshn.xyz), GrubRescue9827";
     }
     async start() {
         this.initialize();
@@ -143,7 +143,10 @@ class LastFMRichPresence {
     initialize() {
         console.log("Starting LastFMRichPresence");
         BdApi.showToast("LastFMRichPresence has started!");
-        this.updateDataInterval = setInterval(() => this.updateData(), 20000); // i hope 20 seconds is enough
+        // i hope 20 seconds is enough
+        // Answer: It is enough.
+        // TODO: Probably should add a way to configure it anyway.
+        this.updateDataInterval = setInterval(() => this.updateData(), 20000);
         this.settings = BdApi.loadData("LastFMRichPresence", "settings") || {};
 	for (const setting of Object.keys(defaultSettings)) {
 		if (typeof this.settings[setting] === "undefined") {
@@ -462,41 +465,71 @@ Please visit <a href="https://github.com/dimdenGD/LastFMRichPresence" target="_b
             return;
         }
         let button_urls = [], buttons = [];
-        if(this.settings.lastfmButton && this.trackData.url && isURL(this.trackData.url)) {
-            buttons.push("Open Last.fm");
-            button_urls.push(this.trackData.url);
-        }
+
+        // TODO: Figure out how to add BD options to change button order and text.
+        // Editing the js file directly is super clunky -_-
+        //
+        // These buttons have been moved around since I feel like most
+        // people don't use last.fm-- YouTube is ubiquitous.
         if(this.settings.youtubeButton && this.trackData.youtubeUrl && isURL(this.trackData.youtubeUrl)) {
-            buttons.push("Listen on YouTube");
+            // Button 1 text. (Youtube URL)
+            buttons.push("▶ ⠀Listen along~! x3c");
             button_urls.push(this.trackData.youtubeUrl);
         }
+        if(this.settings.lastfmButton && this.trackData.url && isURL(this.trackData.url)) {
+            // Button 2 text. (last.fm)
+            buttons.push("🛈 ⠀View track info...");
+            button_urls.push(this.trackData.url);
+        }
         if(this.trackData.soundcloudUrl && isURL(this.trackData.soundcloudUrl)) {
+            // Button 3 text. (Soundcloud)
+            // I do not have a soundcloud to test, so this is left as default.
+            // You may change the text as you wish.
             buttons.push("Listen on Soundcloud");
             button_urls.push(this.trackData.soundcloudUrl);
         }
+        // TODO: Figure out how to add BD options to make configuring rich presence text easier
+        // Hopefully in a way that would have variables, like:
+        // Line1 text: "On Album: ${this.trackData?.album?.['#text']"
+        // But I don't think that would be very easy...
+        // editing the JS file directly works for now...'
+
+        // Rich Presence Config
         let obj = {
             application_id: ClientID,
-            name: (this.settings.artistActivityName && this.trackData.artist['#text']) ? this.trackData.artist['#text'] : "some music",
-            details: this.trackData.name,
-            state: this.trackData?.album?.['#text'] ? (this.artistBeforeAlbum ? `${this.trackData?.artist?.['#text']} – ${this.trackData.album['#text']}` : this.trackData.album['#text']) : this.trackData?.artist?.['#text'],
+            // Status line, appears under username in discord client.
+            // This may have been taken from Riddim-GLiTCH's fork, BDLastFMRPC (?)
+            // https://github.com/Riddim-GLiTCH/BDLastFMRPC
+            name: `${this.trackData.name} by ${this.trackData?.artist?.['#text']}`,
+            // Track title, appears at top of rich presence on profile.
+            details: `${this.trackData.name}`,
+            // Artist text, appears on second line of rich presence on profile.
+            // The `On Album:` text here appears to be entirely unused?
+            // That or I'm just stupid. Which is an equally likely explaination.
+
+            // Using braille empty characters (" ") to get around discord automatically
+            // trimming leading whitespace. Makes it look much prettier imo.
+            state: `On Album: ${this.trackData?.album?.['#text']}` ? ` ⠀⠀🎜 Artist: ${this.trackData?.artist?.['#text']}` : this.trackData?.artist?.['#text'],
             timestamps: { start: this.startPlaying ? Math.floor(this.startPlaying / 1000) : Math.floor(Date.now() / 1000) },
-            assets: this.settings.assetIcon ? {
+            // This took me an embarassing amount of time to figure out what this does...
+            // It's for the little emblem on the album art.
+            assets: {
                 small_image: this.trackData.youtubeUrl ? await this.getAsset("youtube") : this.trackData.soundcloudUrl ? await this.getAsset("soundcloud") : await this.getAsset("lastfm"),
                 small_text: this.trackData.youtubeUrl ? "YouTube" : this.trackData.soundcloudUrl ? "SoundCloud" : "Last.fm",
-            } : {},
+            },
             metadata: { button_urls }, buttons
         }
         if(!obj.state) obj.state = "Unknown";
         if(!obj.details) obj.details = "Undefined";
-        
+        // BUG: Album text does not show up if image is not available, which looks very strange.
+        // However I have no idea how to fix that, as I am NOT a programmer :P
         if(this.trackData?.image?.[1]?.['#text']) {
+            obj.assets.large_text = ` ⠀⠀💿 Album: ${this.trackData?.album?.['#text']}`;
             obj.assets.large_image = await this.getAsset(this.trackData?.image?.[1]?.['#text']);
-            //obj.assets.large_text = this.trackData.name; // this just repeats the song title underneath artist - album
         }
-
         this.setActivity(obj);
     }
-    
+
     updateSettings() {
         BdApi.saveData("LastFMRichPresence", "settings", this.settings);
     }
